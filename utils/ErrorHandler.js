@@ -1,6 +1,9 @@
 const AppError = require('./AppError');
+const Logger = require('./Logger');
 
 module.exports = (err, req, res, next) => {
+  Logger.error(`${err.message}, ${err.stack}`);
+
   function handleValidationError(err) {
     const message = Object.keys(err.errors)
       .map((key) => err.errors[key].message)

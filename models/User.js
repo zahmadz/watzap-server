@@ -39,4 +39,4 @@ UserSchema.methods.comparePassword = async function (password) {
 };
 
 UserSchema.plugin(uniqueValidator);
-module.exports = mongoose.model('user', UserSchema);
+module.exports = mongoose.model('User', UserSchema);

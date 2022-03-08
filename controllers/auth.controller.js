@@ -86,44 +86,6 @@ const signup = catchAsync(async (req, res, next) => {
   sendResWithJWT(res, 200, newUser);
 });
 
-const protect = catchAsync(async (req, res, next) => {
-  // cek apakah ada token didalam body atau cookies
-  let token;
-
-  if (req.cookies && req.cookies.token) {
-    token = req.cookies.token;
-  } else if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
-    token = req.headers.authorization.split(' ')[1];
-  }
-
-  if (!token)
-    return next(
-      new AppError(401, 'please provide token inside cookies', 'UNAUTHORIZED')
-    );
-
-  // verifikasi token
-  const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-
-  // cek apakah ada user dengan token tersebut
-  const user = await User.findById(decoded.id);
-  if (!user)
-    return next(
-      new AppError(
-        401,
-        'there is no user associatet with that id',
-        'UNAUTHORIZED'
-      )
-    );
-
-  // beri akses ke protected route
-  req.loggedInUser = user;
-
-  next();
-});
-
 const validateToken = catchAsync(async (req, res, next) => {
   // cek apakah ada token didalam body atau cookies
   let token;
@@ -166,6 +128,44 @@ const logout = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'ok',
   });
+});
+
+const protect = catchAsync(async (req, res, next) => {
+  // cek apakah ada token didalam body atau cookies
+  let token;
+
+  if (req.cookies && req.cookies.token) {
+    token = req.cookies.token;
+  } else if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    token = req.headers.authorization.split(' ')[1];
+  }
+
+  if (!token)
+    return next(
+      new AppError(401, 'please provide token inside cookies', 'UNAUTHORIZED')
+    );
+
+  // verifikasi token
+  const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+
+  // cek apakah ada user dengan token tersebut
+  const user = await User.findById(decoded.id);
+  if (!user)
+    return next(
+      new AppError(
+        401,
+        'there is no user associatet with that id',
+        'UNAUTHORIZED'
+      )
+    );
+
+  // beri akses ke protected route
+  req.loggedInUser = user;
+
+  next();
 });
 
 module.exports = {

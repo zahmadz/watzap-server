@@ -32,8 +32,11 @@ function initApp() {
     });
 
     // routes
-    const authRoute = require('./routes/auth.router');
-    app.use('/api/v1/auth', authRoute);
+    const AuthRoute = require('./routes/auth.router');
+    app.use('/api/v1/auth', AuthRoute);
+
+    const WAAccountRoute = require('./routes/waAccount.router');
+    app.use('/api/v1/wa-account', WAAccountRoute);
     // end routes
 
     // error handler
