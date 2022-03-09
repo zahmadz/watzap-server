@@ -10,7 +10,7 @@ const { protect } = require('../controllers/auth.controller');
 waAccoutRoute.use(protect);
 waAccoutRoute.route('/').post(addAccount).get(getAccounts);
 
-waAccoutRoute.route('/wa-account/:id').delete(deleteAccount);
+waAccoutRoute.route('/:id/:number').delete(deleteAccount);
 //   .get(getAccount)
 //   .put(updateAccount)
 //   .delete(deleteAccount);
