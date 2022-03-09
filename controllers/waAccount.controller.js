@@ -75,17 +75,13 @@ const getAccounts = CatchAsync(async (req, res, next) => {
 
 const deleteAccount = CatchAsync(async (req, res, next) => {
   const loggedInUserID = req.loggedInUser._id;
+  const { id, number } = req.params;
 
-  const reqLogoutWaAccount = await WhatsappAPI.logout(
-    loggedInUserID,
-    req.body.number
-  );
+  const reqLogoutWaAccount = await WhatsappAPI.logout(loggedInUserID, number);
 
   if (reqLogoutWaAccount.data.status === 'ok') {
-    await WAAccount.deleteOne({
-      author: loggedInUserID,
-      number: req.body.number,
-    });
+    await WAAccount.findByIdAndDelete(id);
+
     res.status(200).json({
       status: 'ok',
       message: 'logout berhasil',
