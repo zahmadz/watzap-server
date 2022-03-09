@@ -21,7 +21,7 @@ function getStatusByNumber(userId, whatsappNumber) {
 }
 
 function logout(userId, whatsappNumber) {
-  return instance.post('/atuh/logout', { userId, whatsappNumber });
+  return instance.post('/auth/logout', { userId, whatsappNumber });
 }
 
 module.exports = {
