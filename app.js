@@ -16,7 +16,7 @@ function initApp() {
     // security, cookie parser & body parser
     app.use(helmet());
     app.use(
-      cors({ origin: process.env.CLIENTS_URL.split(' '), credentials: true })
+      cors({ origin: process.env.CLIENTS_URL.split(','), credentials: true })
     );
     app.use(cookieParser());
     app.use(express.json());
@@ -33,10 +33,10 @@ function initApp() {
 
     // routes
     const AuthRoute = require('./routes/auth.router');
-    app.use('/api/v1/auth', AuthRoute);
+    app.use('/api_backend/v1/auth', AuthRoute);
 
     const WAAccountRoute = require('./routes/waAccount.router');
-    app.use('/api/v1/wa-account', WAAccountRoute);
+    app.use('/api_backend/v1/wa-account', WAAccountRoute);
     // end routes
 
     // error handler
