@@ -16,7 +16,7 @@ function initApp() {
     // security, cookie parser & body parser
     app.use(helmet());
     app.use(
-      cors({ origin: process.env.CLIENTS_URL.split(' '), credentials: true })
+      cors({ origin: process.env.CLIENTS_URL.split(','), credentials: true })
     );
     app.use(cookieParser());
     app.use(express.json());
