@@ -37,6 +37,12 @@ const getAccounts = CatchAsync(async (req, res, next) => {
   const loggedInUserID = req.loggedInUser._id;
 
   let accounts = await WAAccount.find({ author: loggedInUserID });
+  if (!accounts)
+    return res.status(200).json({
+      status: 'ok',
+      accounts: [],
+    });
+
   accounts = JSON.parse(JSON.stringify(accounts));
 
   const reqWhatsappConnections = await WhatsappAPI.getStatus(loggedInUserID);
@@ -77,21 +83,14 @@ const deleteAccount = CatchAsync(async (req, res, next) => {
   const loggedInUserID = req.loggedInUser._id;
   const { id, number } = req.params;
 
-  const reqLogoutWaAccount = await WhatsappAPI.logout(loggedInUserID, number);
+  WhatsappAPI.logout(loggedInUserID, number);
 
-  if (reqLogoutWaAccount.data.status === 'ok') {
-    await WAAccount.findByIdAndDelete(id);
+  await WAAccount.findByIdAndDelete(id);
 
-    res.status(200).json({
-      status: 'ok',
-      message: 'logout berhasil',
-    });
-  } else {
-    res.status(500).json({
-      status: 'error',
-      message: 'logout gagal',
-    });
-  }
+  res.status(200).json({
+    status: 'ok',
+    message: 'logout berhasil',
+  });
 });
 
 module.exports = { addAccount, getAccounts, deleteAccount };
