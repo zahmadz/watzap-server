@@ -33,10 +33,10 @@ function initApp() {
 
     // routes
     const AuthRoute = require('./routes/auth.router');
-    app.use('/api/v1/auth', AuthRoute);
+    app.use('/api_backend/v1/auth', AuthRoute);
 
     const WAAccountRoute = require('./routes/waAccount.router');
-    app.use('/api/v1/wa-account', WAAccountRoute);
+    app.use('/api_backend/v1/wa-account', WAAccountRoute);
     // end routes
 
     // error handler
